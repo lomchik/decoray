@@ -711,20 +711,21 @@ class ModelCatalogProduct extends Model {
 	}
 
     public function updateProducts($products) {
-        $sql = "REPLACE INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_modified) VALUES ";
+        $sql = "INSERT INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_modified) VALUES ";
         $str_data = [];
         foreach ($products as $data) {
             $str_data[] = "({$data['product_id']}, \"{$this->db->escape($data['model'])}\", {$data['quantity']}, {$data['price']}, NOW())";
         }
         $sql.= join($str_data, ', ');
+        $sql.= ' ON DUPLICATE KEY UPDATE quantity=VALUES(quantity), price=VALUES(price), date_modified=NOW()';
         $this->db->query($sql);
     }
 
 	public function importProducts($products) {
-	    $sql = "REPLACE INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_modified, `status`) VALUES ";
+	    $sql = "REPLACE INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_added, date_modified, `status`) VALUES ";
 	    $str_data = [];
 	    foreach ($products as $data) {
-            $str_data[] = "({$data['product_id']}, \"{$this->db->escape($data['model'])}\", {$data['quantity']}, {$data['price']}, NOW(), 1)";
+            $str_data[] = "({$data['product_id']}, \"{$this->db->escape($data['model'])}\", {$data['quantity']}, {$data['price']}, NOW(), NOW(), 1)";
         }
         $sql.= join($str_data, ', ');
 	    $this->db->query($sql);

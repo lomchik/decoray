@@ -1510,7 +1510,6 @@ class ControllerCatalogProduct extends Controller {
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
         $this->response->setOutput($this->load->view('catalog/import_csv', $data));
-        // rendering the view
 
     }
 }
