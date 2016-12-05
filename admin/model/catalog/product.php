@@ -710,7 +710,17 @@ class ModelCatalogProduct extends Model {
 		return $query->row['total'];
 	}
 
-	public function updateProducts($products) {
+    public function updateProducts($products) {
+        $sql = "REPLACE INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_modified) VALUES ";
+        $str_data = [];
+        foreach ($products as $data) {
+            $str_data[] = "({$data['product_id']}, \"{$this->db->escape($data['model'])}\", {$data['quantity']}, {$data['price']}, NOW())";
+        }
+        $sql.= join($str_data, ', ');
+        $this->db->query($sql);
+    }
+
+	public function importProducts($products) {
 	    $sql = "REPLACE INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_modified, `status`) VALUES ";
 	    $str_data = [];
 	    foreach ($products as $data) {
