@@ -709,4 +709,35 @@ class ModelCatalogProduct extends Model {
 
 		return $query->row['total'];
 	}
+
+	public function updateProducts($products) {
+	    $sql = "REPLACE INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_modified, `status`) VALUES ";
+	    $str_data = [];
+	    foreach ($products as $data) {
+            $str_data[] = "({$data['product_id']}, \"{$this->db->escape($data['model'])}\", {$data['quantity']}, {$data['price']}, NOW(), 1)";
+        }
+        $sql.= join($str_data, ', ');
+	    $this->db->query($sql);
+
+        $sql = "REPLACE INTO " . DB_PREFIX . "product_description (product_id, language_id, `name`, meta_title) VALUES ";
+        $str_data = [];
+        $this->load->model('localisation/language');
+        $languages = $this->model_localisation_language->getLanguages();
+        foreach ($products as $data) {
+            $name = "\"{$this->db->escape($data['model'])}\"";
+            foreach($languages as $lang) {
+                $str_data[] = "({$data['product_id']}, {$lang['language_id']}, $name, $name)";
+            }
+        }
+        $sql.= join($str_data, ', ');
+        $this->db->query($sql);
+
+        $sql = "REPLACE INTO " . DB_PREFIX . "product_to_store (product_id, store_id) VALUES ";
+        $str_data = [];
+        foreach ($products as $data) {
+            $str_data[] = "({$data['product_id']}, 0)";
+        }
+        $sql.= join($str_data, ', ');
+        $this->db->query($sql);
+    }
 }

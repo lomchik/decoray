@@ -335,6 +335,8 @@ class ControllerCatalogProduct extends Controller {
 
 		$data['products'] = array();
 
+        $data['import_csv'] = $this->url->link('catalog/product/importCSV', 'token=' . $this->session->data['token'] . $url, 'SSL');
+
 		$filter_data = array(
 			'filter_name'	  => $filter_name,
 			'filter_model'	  => $filter_model,
@@ -1461,4 +1463,54 @@ class ControllerCatalogProduct extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+    public function importCSV() {
+
+        $this->document->setTitle('Import  CSV');
+        $data['heading_title']="Import CSV";
+        $this->load->model('catalog/product');
+        $url = '';
+        $data['success']  = '';
+        $data['error_warning']  = '';
+        $data['cancel'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . $url, 'SSL');
+        $data['action'] = $this->url->link('catalog/product/importCSV', 'token=' . $this->session->data['token'] . $url, 'SSL');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') ) {
+            $file = $_FILES['csv']['tmp_name'];
+            $handle = fopen($file,"r");
+            $cvs = [];
+
+            function convert( $str ) {
+                return iconv( "Windows-1251", "UTF-8", $str );
+            }
+
+            while ($row = fgetcsv($handle,1000,";")) // parses the line it reads for fields in CSV format and returns an array containing the fields read.
+            {
+                $row = array_map( "convert", $row );
+                if ($row[0]!='') // if column 1 is not empty
+                {
+                    $cvs[] = array('product_id' => $row[0],
+                        'model' => $row[3],
+                        'price'=> floatval($row[4]),
+                        'quantity'=> intval($row[6])
+                    );
+                }
+                else
+                {
+                    $data['error_warning'] = 'Empty row while reading cvs file';
+                }
+            }
+
+            $this->model_catalog_product->updateProducts($cvs);
+            $data['success'] = "CSV Successfully imported ". sizeof($cvs) ." rows!";
+        }
+
+
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+        $this->response->setOutput($this->load->view('catalog/import_csv', $data));
+        // rendering the view
+
+    }
 }
