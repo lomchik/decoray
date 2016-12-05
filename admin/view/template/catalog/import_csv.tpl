@@ -3,7 +3,6 @@
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
-            <button form="form" class="btn btn-primary">Import</button>
             <a href="<?php echo $cancel; ?>" class="btn btn-default">Cancel</a>
         </div>
 
@@ -27,7 +26,7 @@
         <div class="panel-body">
             <div class="content">
                 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
-                    <input type="file" name="csv" value="" />
+                    <input type="file" name="csv" value="" onchange="this.parentNode.submit()"/>
                             <?php if (isset($error_csv)) { ?>
                             <span class="error"><?php echo $error_csv; ?></span>
                             <?php } ?>
