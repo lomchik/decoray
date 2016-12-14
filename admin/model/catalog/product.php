@@ -751,4 +751,54 @@ class ModelCatalogProduct extends Model {
         $sql.= join($str_data, ', ');
         $this->db->query($sql);
     }
+
+    public function getAdditionalImages() {
+	    $sql = "SELECT * FROM " . DB_PREFIX . "product_image";
+        $query = $this->db->query($sql);
+
+        return $query->rows;
+    }
+
+    public function setImage($product_id, $image) {
+	    $sql = "UPDATE ".DB_PREFIX."product SET image = \"{$this->db->escape($image)}\" WHERE product_id = ". (int) $product_id;
+        $this->db->query($sql);
+
+        return $this->db->countAffected();
+    }
+
+    public function addAdditionalImage($product_id) {
+	    $sql = "INSERT INTO ".DB_PREFIX."product_image (product_id, sort_order) VALUES (".(int) $product_id . ", 0)";
+        $this->db->query($sql);
+
+	    return $this->db->getLastId();
+    }
+
+    public function updateAdditionalImage($product_image_id, $image) {
+        $sql = "UPDATE " . DB_PREFIX . "product_image SET ";
+        $sql .= " image  = \"{$this->db->escape($image)}\" ";
+        $sql .= "WHERE product_image_id = ". (int) $product_image_id;
+        $this->db->query($sql);
+
+        return $this->db->countAffected();
+    }
+
+    public function removeAdditionaImage($image_id) {
+	    $sql = "DELETE FROM ".DB_PREFIX."product_image WHERE product_image_id = ".(int) $image_id . "LIMIT 1";
+
+        $this->db->query($sql);
+    }
+
+    private function addAdditionalImagesFromOldDB() {
+	    $sql = "TRUNCATE oc_product_image;
+
+INSERT INTO oc_product_image (product_id, image, sort_order)
+
+SELECT art, CONCAT('catalog/prod/', i.id, '.jpg'), 0 FROM img as i
+JOIN prod as p ON i.prod_id = p.id
+JOIN oc_product ON p.art = oc_product.product_id";
+    }
+
+    private function updateAdditionalImagesNames() {
+	    $sql = 'UPDATE oc_product_image SET image = CONCAT(\'catalog/\', product_id, \'_\', product_image_id, \'.jpg\')';
+    }
 }

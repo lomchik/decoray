@@ -18,6 +18,7 @@ define('DIR_DOWNLOAD', $root.'/system/storage/download/');
 define('DIR_LOGS', $root.'/system/storage/logs/');
 define('DIR_MODIFICATION', $root.'/system/storage/modification/');
 define('DIR_UPLOAD', $root.'/system/storage/upload/');
+define('DIR_NEW_IMAGES', $root.'/new-images/');
 
 // DB
 define('DB_DRIVER', 'mysqli');

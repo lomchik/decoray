@@ -336,6 +336,7 @@ class ControllerCatalogProduct extends Controller {
 		$data['products'] = array();
 
         $data['import_csv'] = $this->url->link('catalog/product/importCSV', 'token=' . $this->session->data['token'] . $url, 'SSL');
+        $data['import_images'] = $this->url->link('catalog/product/importImages', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$filter_data = array(
 			'filter_name'	  => $filter_name,
@@ -1511,5 +1512,95 @@ class ControllerCatalogProduct extends Controller {
         $data['footer'] = $this->load->controller('common/footer');
         $this->response->setOutput($this->load->view('catalog/import_csv', $data));
 
+    }
+
+    public function importImages() {
+	    $console = [];
+        $error = 0;
+        $this->document->setTitle('Import  Images');
+        $this->load->model('catalog/product');
+        $success = '';
+        foreach(glob(DIR_NEW_IMAGES.'/*.*') as $file) {
+            $message = "";
+            $path_parts =  pathinfo($file);
+            $message .= "importing {$path_parts['filename']}";
+            $parts = explode('_', $path_parts['filename']);
+            $product_id = $parts[0];
+            $isAdditional = isset($parts[1]);
+            if (!$isAdditional) {
+                $message .= " is main";
+                $imageName = 'catalog/'.$product_id.'.jpg';
+                $message .= " moving to $imageName";
+                if (!rename($file, DIR_IMAGE.$imageName)) {
+                    $error = "can't rename file $file to $imageName";
+                    break;
+                }
+                $message .= " moved";
+                if (!$this->model_catalog_product->setImage($product_id,  $imageName)) {
+                    $error = " no rows in db updated for $file";
+                    break;
+                }
+                $message .= " db updated product_id = $product_id";
+            }
+            else {
+                $message .=  " is additional";
+                $image_id = $this->model_catalog_product->addAdditionalImage($product_id);
+                $imageName = 'catalog/'.$product_id.'_'.$image_id.'.jpg';
+                $message .=  " => $imageName";
+                $this->model_catalog_product->updateAdditionalImage($image_id, $imageName);
+                $message .=  " db updated product_image_id = $image_id";
+                if (!rename($file, DIR_IMAGE.$imageName)) {
+                    $error = "can't rename file $file to $imageName";
+                    if (!$this->model_catalog_product->removeAdditionaImage($image_id)) {
+                        $error = " no rows in db updated for $file";
+                        break;
+                    }
+                    break;
+                }
+            }
+            $console[] = $message;
+        }
+        if ($error) {
+            $console[] = $message;
+        }
+        else {
+            $success = "" . sizeof($console) . " images imported";
+        }
+        $data['console'] = $console;
+        $data['success'] = $success;
+        $data['error'] = $error;
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+        $this->response->setOutput($this->load->view('catalog/import_images', $data));
+
+    }
+
+
+    private function refactorImages() {
+	    $this->load->model('catalog/product');
+        $images = $this->model_catalog_product->getAdditionalImages();
+        foreach ($images as $image) {
+            $newImageName = 'catalog/' . $image['product_id'] . '_' .$image['product_image_id'] . '.jpg';
+            rename(DIR_IMAGE . $image['image'], DIR_IMAGE . $newImageName);
+            $image['image'] = $newImageName;
+            //$this->model_catalog_product->updateAdditionalImage($image);
+        }
+
+
+        /*
+	    $products = $this->model_catalog_product->getProducts(Array('filter_image' => 1));
+	    foreach ($products as $product) {
+	        if (!$product['image'])
+	        if (!file_exists(DIR_IMAGE . $product['image'])) {
+	            echo 'file not found ' .$product['image'] . ' for product ' . $product['product_id'] . '<br/>';
+            }
+            //echo 'rename '. DIR_IMAGE . $product['image'] . ' => ' . DIR_IMAGE . 'new-catalog/' . $product['product_id'] . '.jpg' . '<br/>';
+            rename(DIR_IMAGE . $product['image'], DIR_IMAGE . 'new-catalog/' . $product['product_id'] . '.jpg');
+        }*/
+       /* foreach(glob(DIR_IMAGE.'new-catalog/*.*') as $file) {
+            echo $file . ' => ' . str_replace('/new-catalog/', '/catalog/', $file) . '<br/>';
+            rename($file,  str_replace('/new-catalog/', '/catalog/', $file));
+        }*/
     }
 }

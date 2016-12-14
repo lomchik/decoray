@@ -1,0 +1,19 @@
+Warning: rename(/home/coscheyc/coschey-cycles.com/deco-ray/image/catalog/7265.jpg,/home/coscheyc/coschey-cycles.com/deco-ray/image/new-catalog/10100.jpg): No such file or directory in /home/coscheyc/coschey-cycles.com/deco-ray/admin/controller/catalog/product.php on line 1541
+
+no image 
+product_id
+7822 catalog/6738.jpg - not found
+10102 catalog/7264.jpg - restored
+7265 catalog/10100.jpg - restored
+
+problems with photo
+http://deco-ray.com/product_info.php?id=539&cat=41 - broken
+http://deco-ray.com/product_info.php?id=527&cat=41 - broken
+http://deco-ray.com/product_info.php?id=630&cat=42 - broken
+http://deco-ray.com/product_info.php?id=776&cat=45 - broken
+http://deco-ray.com/product_info.php?id=875&cat=45 - broken
+http://deco-ray.com/product_info.php?id=987&cat=46 - broken
+http://deco-ray.com/product_info.php?id=818&cat=45 - broken
+http://deco-ray.com/product_info.php?id=6738 - not found
+
+continue from page 50
