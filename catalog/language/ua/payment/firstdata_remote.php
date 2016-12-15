@@ -1,89 +1,62 @@
 <?php
-// Heading
-$_['heading_title']					= 'First Data EMEA Web Service API';
+
+//version 2.0.0.0
+//Made by Sirchyk for www.marketplus.if.ua on 16 of october 2014.
+//info@marketplus.if.ua
 
 // Text
-$_['text_firstdata_remote']			= '<img src="view/image/payment/firstdata.png" alt="First Data" title="First Data" style="border: 1px solid #EEEEEE;" />';
-$_['text_payment']					= 'Payment';
-$_['text_success']					= 'Success: You have modified First Data account details!';
-$_['text_edit']                     = 'Edit First Data EMEA Web Service API';
-$_['text_card_type']				= 'Card type';
-$_['text_enabled']					= 'Enabled';
-$_['text_merchant_id']				= 'Store ID';
-$_['text_subaccount']				= 'Subaccount';
-$_['text_user_id']					= 'User ID';
-$_['text_capture_ok']				= 'Capture was successful';
-$_['text_capture_ok_order']			= 'Capture was successful, order status updated to success - settled';
-$_['text_refund_ok']				= 'Refund was successful';
-$_['text_refund_ok_order']			= 'Refund was successful, order status updated to refunded';
-$_['text_void_ok']					= 'Void was successful, order status updated to voided';
-$_['text_settle_auto']				= 'Sale';
-$_['text_settle_delayed']			= 'Pre auth';
-$_['text_mastercard']				= 'Mastercard';
-$_['text_visa']						= 'Visa';
-$_['text_diners']					= 'Diners';
-$_['text_amex']						= 'American Express';
-$_['text_maestro']					= 'Maestro';
-$_['text_payment_info']				= 'Payment information';
-$_['text_capture_status']			= 'Payment captured';
-$_['text_void_status']				= 'Payment voided';
-$_['text_refund_status']			= 'Payment refunded';
-$_['text_order_ref']				= 'Order ref';
-$_['text_order_total']				= 'Total authorised';
-$_['text_total_captured']			= 'Total captured';
-$_['text_transactions']				= 'Transactions';
-$_['text_column_amount']			= 'Amount';
-$_['text_column_type']				= 'Type';
-$_['text_column_date_added']		= 'Created';
-$_['text_confirm_void']				= 'Are you sure you want to void the payment?';
-$_['text_confirm_capture']			= 'Are you sure you want to capture the payment?';
-$_['text_confirm_refund']			= 'Are you sure you want to refund the payment?';
+$_['text_title']				= 'Кредитна чи Дебетна карта';
+$_['text_credit_card']			= 'Деталі кредитної карти';
+$_['text_wait']					= 'Зачекайте будь-ласка!';
 
 // Entry
-$_['entry_certificate_path']		= 'Certificate path';
-$_['entry_certificate_key_path']	= 'Private key path';
-$_['entry_certificate_key_pw']		= 'Private key password';
-$_['entry_certificate_ca_path']		= 'CA path';
-$_['entry_merchant_id']				= 'Store ID';
-$_['entry_user_id']					= 'User ID';
-$_['entry_password']				= 'Password';
-$_['entry_total']					= 'Total';
-$_['entry_sort_order']				= 'Sort order';
-$_['entry_geo_zone']				= 'Geo zone';
-$_['entry_status']					= 'Status';
-$_['entry_debug']					= 'Debug logging';
-$_['entry_auto_settle']				= 'Settlement type';
-$_['entry_status_success_settled']	= 'Success - settled';
-$_['entry_status_success_unsettled'] = 'Success - not settled';
-$_['entry_status_decline']			= 'Decline';
-$_['entry_status_void']				= 'Voided';
-$_['entry_status_refund']			= 'Refunded';
-$_['entry_enable_card_store']		= 'Enable card storage tokens';
-$_['entry_cards_accepted']			= 'Card types accepted';
+$_['entry_cc_number']			= 'Номер карти';
+$_['entry_cc_name']				= 'Ім`я власника';
+$_['entry_cc_expire_date']		= 'Дійсна до';
+$_['entry_cc_cvv2']				= 'Код безпеки (CVV2)';
 
 // Help
-$_['help_total']					= 'The checkout total the order must reach before this payment method becomes active';
-$_['help_certificate']				= 'Certificates and private keys should be stored outside of your public web folders';
-$_['help_card_select']				= 'Ask the user to choose thier card type before they are redirected';
-$_['help_notification']				= 'You need to supply this URL to First Data to get payment notifications';
-$_['help_debug']					= 'Enabling debug will write sensitive data to a log file. You should always disable unless instructed otherwise .';
-$_['help_settle']					= 'If you use pre-auth you must complete a post-auth action within 3-5 days otherwise your transaction will be dropped';
+$_['help_start_date']			= '(якщо доступно)';
+$_['help_issue']				= '(для Maestro і Solo карт)';
 
-// Tab
-$_['tab_account']					= 'API info';
-$_['tab_order_status']				= 'Order status';
-$_['tab_payment']					= 'Payment settings';
-
-// Button
-$_['button_capture']				= 'Capture';
-$_['button_refund']					= 'Refund';
-$_['button_void']					= 'Void';
+// Text
+$_['text_result']				= 'Результат: ';
+$_['text_approval_code']		= 'Код підтвердження: ';
+$_['text_reference_number']		= 'Посилання: ';
+$_['text_card_number_ref']		= 'Останні 4 цифри номеру карти: xxxx ';
+$_['text_card_brand']			= 'Тип карти: ';
+$_['text_response_code']		= 'Код відповіді: ';
+$_['text_fault']				= 'Повідомлення про помилку: ';
+$_['text_error']				= 'Повідомлення помилки: ';
+$_['text_avs']					= 'Підтвердження адреси: ';
+$_['text_address_ppx']			= 'Немає даних про адресу або адреса не перевірена емітентом карти';
+$_['text_address_yyy']			= 'Емітент карти підтвердив співпадання вулиці і поштового індексу з записом в базі даних';
+$_['text_address_yna']			= 'Емітент карти підтвердив співпадання вулиці, але не підтвердив співпадання поштового індексу з записом в базі даних';
+$_['text_address_nyz']			= 'Емітент карти підтвердив співпадання поштового індексу, але не підтвердив співпадання вулиці з записом в базі даних';
+$_['text_address_nnn']			= 'І вулиця і поштовий індекс не співпадають з записом в базі даних емітента карти';
+$_['text_address_ypx']			= 'Емітент карти підтвердив співпадання вулиці з записом в базі. Емітент не перевіряв поштовий індекс';
+$_['text_address_pyx']			= 'Емітент карти підтвердив співпадання поштового індексу з записом в базі. Емітент не перевіряв вулицю';
+$_['text_address_xxu']			= 'Емітент карти не перевіряв інформацію AVS';
+$_['text_card_code_verify']		= 'Код безпеки: ';
+$_['text_card_code_m']			= 'Код безпеки карти співпадає';
+$_['text_card_code_n']			= 'Код безпеки карти не співпадає';
+$_['text_card_code_p']			= 'Не проведено';
+$_['text_card_code_s']			= 'Торговець повідомив, що на карті немає коду безпеки';
+$_['text_card_code_u']			= 'Емітент не сертифікований і/чи не надав ключі шифрування';
+$_['text_card_code_x']			= 'Не отирмано відповіді від Асоціації кредитних карт';
+$_['text_card_code_blank']		= 'Порожній запит свідчить що не було відправлено коду і не було інформації про наявність коду на карті.';
+$_['text_card_accepted']		= 'Прийняті карти: ';
+$_['text_card_type_m']			= 'Mastercard';
+$_['text_card_type_v']			= 'Visa (Credit/Debit/Electron/Delta)';
+$_['text_card_type_c']			= 'Diners';
+$_['text_card_type_a']			= 'American Express';
+$_['text_card_type_ma']			= 'Maestro';
+$_['text_card_new']				= 'Нова карта';
+$_['text_response_proc_code']	= 'Код обробки: ';
+$_['text_response_ref']			= 'Номер для посилання: ';
 
 // Error
-$_['error_merchant_id']				= 'Store ID is required';
-$_['error_user_id']					= 'User ID is required';
-$_['error_password']				= 'Password is required';
-$_['error_certificate']				= 'Certificate path is required';
-$_['error_key']						= 'Certificate key is required';
-$_['error_key_pw']					= 'Certificate key password is required';
-$_['error_ca']						= 'Certificate Authority (CA) is required';
+$_['error_card_number']			= 'Будь-ласка перевірте номер Вашої карти';
+$_['error_card_name']			= 'Будь-ласка перевірте ім`я власника карти';
+$_['error_card_cvv']			= 'Будь-ласка перевірте правильність CVV2 коду';
+$_['error_failed']				= 'Неможливо провести Вашу оплату, будь-ласка зв`яжіться з продавцем';

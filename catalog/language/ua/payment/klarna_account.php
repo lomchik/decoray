@@ -1,39 +1,43 @@
 <?php
-// Heading
-$_['heading_title']					= 'Klarna Account';
+
+//version 2.0.0.0
+//Made by Sirchyk for www.marketplus.if.ua on 16 of october 2014.
+//info@marketplus.if.ua
 
 // Text
-$_['text_payment']					= 'Payment';
-$_['text_success']					= 'Success: You have modified Klarna Payment module!';
-$_['text_edit']                     = 'Edit Klarna Account';
-$_['text_klarna_account']			= '<a href="https://merchants.klarna.com/signup?locale=en&partner_id=d5c87110cebc383a826364769047042e777da5e8&utm_campaign=Platform&utm_medium=Partners&utm_source=Opencart" target="_blank"><img src="https://cdn.klarna.com/public/images/global/logos/v1/basic/global_basic_logo_std_blue-black.png?width=60&eid=opencart" alt="Klarna Account" title="Klarna Account" style="border: 1px solid #EEEEEE;" /></a>';
-$_['text_live']						= 'Live';
-$_['text_beta']						= 'Beta';
-$_['text_sweden']					= 'Sweden';
-$_['text_norway']					= 'Norway';
-$_['text_finland']					= 'Finland';
-$_['text_denmark']					= 'Denmark';
-$_['text_germany']					= 'Germany';
-$_['text_netherlands']				= 'The Netherlands';
+$_['text_title']				= 'Обліковий запис Klarna - Платіть від %s/місяць';
+$_['text_terms']				= '<span id="klarna_account_toc"></span><script type="text/javascript">var terms = new Klarna.Terms.Account({el: \'klarna_account_toc\', eid: \'%s\', country: \'%s\'});</script>';
+$_['text_information']			= 'Інформаіція облікового запису Klarna';
+$_['text_additional']			= 'Обліковий запис Klarna необхідо заповнити додатковою інформацією, необхідною для обробки Вашого замовлення.';
+$_['text_male']					= 'Чоловік';
+$_['text_female']				= 'Жінка';
+$_['text_year']					= 'Рік';
+$_['text_month']				= 'Місяць';
+$_['text_day']					= 'День';
+$_['text_payment_option']		= 'Опції оплати';
+$_['text_single_payment']		= 'Разовий платіж';
+$_['text_monthly_payment']		= '%s - %s в місяць';
+$_['text_comment']				= 'Номер рахунку Klarna: %s' . "\n" . '%s/%s: %.4f';
 
 // Entry
-$_['entry_merchant']				= 'Klarna Merchant ID';
-$_['entry_secret']					= 'Klarna Secret';
-$_['entry_server']					= 'Server';
-$_['entry_total']					= 'Total';
-$_['entry_pending_status']			= 'Pending Status';
-$_['entry_accepted_status']			= 'Accepted Status';
-$_['entry_geo_zone']				= 'Geo Zone';
-$_['entry_status']					= 'Status';
-$_['entry_sort_order']				= 'Sort Order';
+$_['entry_gender']				= 'Стать';
+$_['entry_pno']					= 'Податковий номер';
+$_['entry_dob']					= 'Дата народження';
+$_['entry_phone_no']			= 'Номер телефону';
+$_['entry_street']				= 'Вулиця';
+$_['entry_house_no']			= 'Номер будинку.';
+$_['entry_house_ext']			= 'Корпус .';
+$_['entry_company']				= 'Реєстраційний номер компанії';
 
 // Help
-$_['help_merchant']					= '(estore id) to use for the Klarna service (provided by Klarna).';
-$_['help_secret']					= 'Shared secret to use with the Klarna service (provided by Klarna).';
-$_['help_total']					= 'The checkout total the order must reach before this payment method becomes active.';
+$_['help_pno']					= 'Будь-ласка, введіть Ваш податковий номер.';
+$_['help_phone_no']				= 'Будь-ласка, введіть Ваш номер телефону.';
+$_['help_street']				= 'Будь-ласка, зверніть увагу на те, що доставка товару можлива тільки на зареєстровану адресу, якщо Ви оплачуєте за допомогою Klarna.';
+$_['help_house_no']				= 'Будь-ласка, введіть номер Вашого будинку.';
+$_['help_house_ext']			= 'Будь-ласка, введіть додаткову інформацію про Ваш будинок.';
+$_['help_company']				= 'Будь-ласка, введіть реєстраційний номер Вашої компанії.';
 
 // Error
-$_['error_permission']				= 'Warning: You do not have permission to modify payment Klarna Part Payment!';
-$_['error_pclass']					= 'Could not retrieve pClass for %s. Error Code: %s; Error Message: %s';
-$_['error_curl']					= 'Curl Error - Code: %d; Message: %s';
-$_['error_log']						= 'There were errors updating the module. Please check the log file.';
+$_['error_deu_terms']			= 'Ви мусите погодитися з умовами політики конфіденційності Klarna(Datenschutz)';
+$_['error_address_match']		= 'Платіжна адреса і адреса доставки повинні співпадати, якщо Ви збираєтеся використати Klarna Платежі';
+$_['error_network']				= 'В процесі обробки виникла помилка. Будь-ласка, спробуйте пізніше.';

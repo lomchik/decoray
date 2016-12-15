@@ -1,28 +1,15 @@
 <?php
-// Heading
-$_['heading_title']					= 'Paymate';
+
+//version 2.0.0.0
+//Made by Sirchyk for www.marketplus.if.ua on 16 of october 2014.
+//info@marketplus.if.ua
 
 // Text
-$_['text_payment']					= 'Payment';
-$_['text_success']					= 'Success: You have modified Paymate account details!';
-$_['text_edit']                     = 'Edit Paymate';
-$_['text_paymate']					= '<img src="view/image/payment/paymate.png" alt="Paymate" title="Paymate" style="border: 1px solid #EEEEEE;" />';
-
-// Entry
-$_['entry_username']				= 'Paymate Username';
-$_['entry_password']				= 'Password';
-$_['entry_test']					= 'Test Mode';
-$_['entry_total']					= 'Total';
-$_['entry_order_status']			= 'Order Status';
-$_['entry_geo_zone']				= 'Geo Zone';
-$_['entry_status']					= 'Status';
-$_['entry_sort_order']				= 'Sort Order';
-
-// Help
-$_['help_password']					= 'Just use some random password. This will be used to make sure the payment information is not interfered with after being sent to the payment gateway.';
-$_['help_total']					= 'The checkout total the order must reach before this payment method becomes active.';
-
-// Error
-$_['error_permission']				= 'Warning: You do not have permission to modify payment Paymate!';
-$_['error_username']				= 'Paymate Username required!';
-$_['error_password']				= 'Password required!';
+$_['text_title']				= 'Кредитна / Дебетна карта (Paymate)';
+$_['text_unable']				= 'Не вдалося знайти чи оновити статус замовлення';
+$_['text_declined']				= 'Платіж відхилено сервісом Paymate';
+$_['text_failed']				= 'Невдала оплата Paymate';
+$_['text_failed_message']		= '<p>На жаль в процесі оплати Paymate виникла помилка.</p><p><b>Увага: </b>%s</p><p>будь-ласка перевірте Ваш Paymate баланс перед наступною стробою оплати цього замовлення</p><p> Якщо ви вважаєте що ця транзакція була успішною, чи гроші було списано з Вашого Paymate балансу, будь-ласка <a href="%s">напишіть нам</a> вказавши деталі Вашого замовлення.</p>';
+$_['text_basket']				= 'Кошик';
+$_['text_checkout']				= 'Оформити';
+$_['text_success']				= 'Успішно';

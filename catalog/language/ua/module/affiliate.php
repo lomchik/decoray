@@ -5,14 +5,16 @@
 //info@marketplus.if.ua
 
 // Heading
-$_['heading_title']    = 'Партнери';
+$_['heading_title']    = 'Партнерська програма';
 
-$_['text_module']      = 'Модулі';
-$_['text_success']     = 'Ви успішно змінил модулі партнерів!';
-$_['text_edit']        = 'Змінити модулі партнерів';
-
-// Entry
-$_['entry_status']     = 'Статус';
-
-// Error
-$_['error_permission'] = 'У Вас немає доступу для зміни модулів партнерів!';
+// Text
+$_['text_register']    = 'Реєстрація';
+$_['text_login']       = 'Вхід';
+$_['text_logout']      = 'Вихід';
+$_['text_forgotten']   = 'Забули пароль?';
+$_['text_account']     = 'Обліковий запис';
+$_['text_edit']        = 'Змінити обліковий запис';
+$_['text_password']    = 'Пароль';
+$_['text_payment']     = 'Варіанти оплати';
+$_['text_tracking']    = 'Відслідковування партнерської програми';
+$_['text_transaction'] = 'Оплати';

@@ -7,12 +7,20 @@
 // Heading
 $_['heading_title']    = 'Обліковий запис';
 
-$_['text_module']      = 'Модулі';
-$_['text_success']     = 'Ви успішно змінили модуль облікового запису!';
-$_['text_edit']        = 'Змінити модуль облікового запису';
-
-// Entry
-$_['entry_status']     = 'Статус';
-
-// Error
-$_['error_permission'] = 'У Вас немає доступу для зміни модулю облікового запису!';
+// Text
+$_['text_register']    = 'Зареєструватися';
+$_['text_login']       = 'Вхід';
+$_['text_logout']      = 'Вихід';
+$_['text_forgotten']   = 'Забули пароль?';
+$_['text_account']     = 'Обліковий запис';
+$_['text_edit']        = 'Змінити профіль';
+$_['text_password']    = 'Пароль';
+$_['text_address']     = 'Адресна книга';
+$_['text_wishlist']    = 'Список побажань';
+$_['text_order']       = 'Історія замовлень';
+$_['text_download']    = 'Завантаження';
+$_['text_reward']      = 'Бонусні бали';
+$_['text_return']      = 'Повернення';
+$_['text_transaction'] = 'Оплати';
+$_['text_newsletter']  = 'Розсилання новин';
+$_['text_recurring']   = 'Регулярні платежі';
