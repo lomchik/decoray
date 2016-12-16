@@ -7,12 +7,12 @@
     </div>
 
     <div class="container-fluid">
-        <?php if ($error) { ?>
+        <?php foreach($errors as $error) { ?>
         <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error; ?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
         <?php } ?>
-        <?php if (isset($success)) { ?>
+        <?php if ($success) { ?>
         <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $success; ?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>

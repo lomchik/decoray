@@ -710,14 +710,9 @@ class ModelCatalogProduct extends Model {
 		return $query->row['total'];
 	}
 
-    public function updateProducts($products) {
-        $sql = "INSERT INTO " . DB_PREFIX . "product (product_id, model, quantity, price, date_modified) VALUES ";
-        $str_data = [];
-        foreach ($products as $data) {
-            $str_data[] = "({$data['product_id']}, \"{$this->db->escape($data['model'])}\", {$data['quantity']}, {$data['price']}, NOW())";
-        }
-        $sql.= join($str_data, ', ');
-        $sql.= ' ON DUPLICATE KEY UPDATE quantity=VALUES(quantity), price=VALUES(price), date_modified=NOW()';
+    public function updateProduct($product) {
+        $sql = "UPDATE " . DB_PREFIX . "product SET quantity=".(int) $product['quantity']
+            . ", price=".(int) $product['price'] . ", date_modified=NOW() WHERE product_id=".(int) $product['product_id'];
         $this->db->query($sql);
     }
 
@@ -752,6 +747,12 @@ class ModelCatalogProduct extends Model {
         $this->db->query($sql);
     }
 
+    public function setQuantityNotIn($ids, $value) {
+	    $sql = "UPDATE ".DB_PREFIX . "product SET quantity = $value where product_id not in (".join($ids, ', ').")";
+
+        $this->db->query($sql);
+    }
+
     public function getAdditionalImages() {
 	    $sql = "SELECT * FROM " . DB_PREFIX . "product_image";
         $query = $this->db->query($sql);
@@ -766,11 +767,22 @@ class ModelCatalogProduct extends Model {
         return $this->db->countAffected();
     }
 
-    public function addAdditionalImage($product_id) {
-	    $sql = "INSERT INTO ".DB_PREFIX."product_image (product_id, sort_order) VALUES (".(int) $product_id . ", 0)";
-        $this->db->query($sql);
+    public function addAdditionalImage($product_id, $image) {
+	    $image = $this->db->escape($image);
+        $product_id = (int) $product_id;
+	    $sql = "SELECT * FROM ".DB_PREFIX."product_image WHERE product_id =  $product_id AND image = \"$image\"";
+        $query = $this->db->query($sql);
+        if (!sizeof($query->rows)) {
+            $sql = "INSERT INTO ".DB_PREFIX."product_image (product_id, image, sort_order) VALUES ($product_id, \"$image\", 0)";
+            $this->db->query($sql);
 
-	    return $this->db->getLastId();
+            return $this->db->getLastId();
+        }
+        else {
+            $product_image_id = $query->rows[0]['product_image_id'];
+
+            return $product_image_id;
+        }
     }
 
     public function updateAdditionalImage($product_image_id, $image) {
@@ -788,6 +800,14 @@ class ModelCatalogProduct extends Model {
         $this->db->query($sql);
     }
 
+    public function getOldProducts() {
+	    $sql = "SELECT * FROM prod where 1";
+
+        $query = $this->db->query($sql);
+
+        return $query->rows;
+    }
+
     private function addAdditionalImagesFromOldDB() {
 	    $sql = "TRUNCATE oc_product_image;
 
@@ -800,5 +820,21 @@ JOIN oc_product ON p.art = oc_product.product_id";
 
     private function updateAdditionalImagesNames() {
 	    $sql = 'UPDATE oc_product_image SET image = CONCAT(\'catalog/\', product_id, \'_\', product_image_id, \'.jpg\')';
+    }
+
+
+    public function truncate($tables) {
+	    foreach ($tables as $table) {
+	        $sql = "TRUNCATE {$this->db->escape(DB_PREFIX.$table)}";
+            $this->db->query($sql);
+        }
+    }
+
+    public function getOldAdditionalImages() {
+	    $sql = "SELECT i.id as img_id, art, p.id as prod_id FROM img as i JOIN prod p ON i.prod_id = p.id  WHERE 1";
+
+        $query = $this->db->query($sql);
+
+        return $query->rows;
     }
 }

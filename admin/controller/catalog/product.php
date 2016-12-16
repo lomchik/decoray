@@ -1466,7 +1466,6 @@ class ControllerCatalogProduct extends Controller {
 	}
 
     public function importCSV() {
-
         $this->document->setTitle('Import  CSV');
         $data['heading_title']="Import CSV";
         $this->load->model('catalog/product');
@@ -1490,7 +1489,7 @@ class ControllerCatalogProduct extends Controller {
                 $row = array_map( "convert", $row );
                 if ($row[0]!='') // if column 1 is not empty
                 {
-                    $cvs[] = array('product_id' => $row[0],
+                    $cvs[] = array('product_id' => (int) $row[0],
                         'model' => $row[3],
                         'price'=> floatval($row[4]),
                         'quantity'=> intval($row[6])
@@ -1502,8 +1501,24 @@ class ControllerCatalogProduct extends Controller {
                 }
             }
 
-            $this->model_catalog_product->updateProducts($cvs);
-            $data['success'] = "CSV Successfully imported ". sizeof($cvs) ." rows!";
+            $imported = [];
+            $updated = [];
+            $ids = [];
+            foreach ($cvs as $product) {
+                if ($this->model_catalog_product->getProduct($product['product_id'])) {
+                    $this->model_catalog_product->updateProduct($product);
+                    $updated[] = $product;
+                }
+                else {
+                    $this->model_catalog_product->importProducts([$product]);
+                    $imported[] = $product;
+                }
+                $ids[] = $product['product_id'];
+            }
+            $this->model_catalog_product->setQuantityNotIn($ids, 0);
+            $data['imported'] = $imported;
+            $data['updated'] = $updated;
+            $data['success'] = "CSV Successfully imported ". sizeof($cvs) ." rows! " . sizeof($imported) . " new imported and " . sizeof($updated) . " updated";
         }
 
 
@@ -1516,59 +1531,45 @@ class ControllerCatalogProduct extends Controller {
 
     public function importImages() {
 	    $console = [];
-        $error = 0;
+        $errors = [];
         $this->document->setTitle('Import  Images');
         $this->load->model('catalog/product');
-        $success = '';
+        $success = false;
         foreach(glob(DIR_NEW_IMAGES.'/*.*') as $file) {
             $message = "";
             $path_parts =  pathinfo($file);
-            $message .= "importing {$path_parts['filename']}";
+            $name = $path_parts['basename'];
+            $message .= "importing $name";
             $parts = explode('_', $path_parts['filename']);
             $product_id = $parts[0];
             $isAdditional = isset($parts[1]);
+            if (!$this->model_catalog_product->getProduct($product_id)) {
+                $errors[] = "product $product_id for $file does not exist";
+                continue;
+            }
+            $imageName = "catalog/$name";
+            if (!rename($file, DIR_IMAGE.$imageName)) {
+                $errors[] = "can't rename file $file to $imageName";
+                break;
+            }
             if (!$isAdditional) {
                 $message .= " is main";
-                $imageName = 'catalog/'.$product_id.'.jpg';
-                $message .= " moving to $imageName";
-                if (!rename($file, DIR_IMAGE.$imageName)) {
-                    $error = "can't rename file $file to $imageName";
-                    break;
-                }
-                $message .= " moved";
-                if (!$this->model_catalog_product->setImage($product_id,  $imageName)) {
-                    $error = " no rows in db updated for $file";
-                    break;
-                }
+                $this->model_catalog_product->setImage($product_id,  $imageName);
                 $message .= " db updated product_id = $product_id";
             }
             else {
                 $message .=  " is additional";
-                $image_id = $this->model_catalog_product->addAdditionalImage($product_id);
-                $imageName = 'catalog/'.$product_id.'_'.$image_id.'.jpg';
-                $message .=  " => $imageName";
-                $this->model_catalog_product->updateAdditionalImage($image_id, $imageName);
+                $image_id = $this->model_catalog_product->addAdditionalImage($product_id, $imageName);
                 $message .=  " db updated product_image_id = $image_id";
-                if (!rename($file, DIR_IMAGE.$imageName)) {
-                    $error = "can't rename file $file to $imageName";
-                    if (!$this->model_catalog_product->removeAdditionaImage($image_id)) {
-                        $error = " no rows in db updated for $file";
-                        break;
-                    }
-                    break;
-                }
             }
             $console[] = $message;
         }
-        if ($error) {
-            $console[] = $message;
-        }
-        else {
+        if (sizeof($console)) {
             $success = "" . sizeof($console) . " images imported";
         }
         $data['console'] = $console;
         $data['success'] = $success;
-        $data['error'] = $error;
+        $data['errors'] = $errors;
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
@@ -1602,5 +1603,63 @@ class ControllerCatalogProduct extends Controller {
             echo $file . ' => ' . str_replace('/new-catalog/', '/catalog/', $file) . '<br/>';
             rename($file,  str_replace('/new-catalog/', '/catalog/', $file));
         }*/
+    }
+
+    private function migration() {
+        $this->load->model('catalog/product');
+
+        echo 'truncate database tables product, product_image, product_description, product_to_store<br>';
+
+        $this->model_catalog_product->truncate(['product', 'product_image', 'product_description', 'product_to_store']);
+
+        echo 'get all products from prod and import them to new db<br>';
+
+        $old_products = $this->model_catalog_product->getOldProducts();
+        $products = [];
+        foreach ($old_products as $prod) {
+            $products[] = array(
+                'product_id' => $prod['art'],
+                'model' => $prod['name'],
+                'price'=> floatval($prod['price']),
+                'quantity'=> intval($prod['count'])
+            );
+        }
+        $this->model_catalog_product->importProducts($products);
+
+        echo "total imported " . count($products) . "<br>";
+
+        $old_image_dir = DIR_IMAGE.'old-catalog/';
+        echo 'rename images from id to art by old db and add images to product table<br>';
+
+        echo "old img dir = $old_image_dir<br>";
+
+        foreach ($old_products as $prod) {
+            $old_file = $old_image_dir."{$prod['id']}.jpg";
+            $new_file = "catalog/{$prod['art']}.jpg";
+            if (!file_exists($old_file)) {
+                echo "ERROR $old_file does not exists<br>";
+                continue;
+            }
+            copy($old_file, DIR_IMAGE.$new_file);
+            $this->model_catalog_product->setImage($prod['art'],  $new_file);
+        }
+        echo "total ".sizeof($old_products)." images copied<br>";
+
+        echo 'rename addition images to product_id___image_id.jpg and add them to product_images<br>';
+
+        $old_images = $this->model_catalog_product->getOldAdditionalImages();
+        foreach ($old_images as $img) {
+            $product_id = $img['art'];
+            $old_file = $old_image_dir."prod/{$img['img_id']}.jpg";
+            if (!file_exists($old_file)) {
+                echo "ERROR $old_file does not exists<br>";
+                continue;
+            }
+            $imageName = 'catalog/'.$product_id.'_'.$img['img_id'].'.jpg';
+            $this->model_catalog_product->addAdditionalImage($product_id, $imageName);
+            copy($old_file, DIR_IMAGE.$imageName);
+        }
+        echo "total ".sizeof($old_images)." additional images copied<br>";
+
     }
 }

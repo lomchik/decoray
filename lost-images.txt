@@ -17,3 +17,22 @@ http://deco-ray.com/product_info.php?id=818&cat=45 - broken
 http://deco-ray.com/product_info.php?id=6738 - not found
 
 continue from page 50
+
+//images not found
+
+ERROR /home/coscheyc/coschey-cycles.com/deco-ray/image/old-catalog/7423.jpg does not exists
+ERROR /home/coscheyc/coschey-cycles.com/deco-ray/image/old-catalog/5216.jpg does not exists
+ERROR /home/coscheyc/coschey-cycles.com/deco-ray/image/old-catalog/4745.jpg does not exists
+ERROR /home/coscheyc/coschey-cycles.com/deco-ray/image/old-catalog/7404.jpg does not exists
+ERROR /home/coscheyc/coschey-cycles.com/deco-ray/image/old-catalog/6738.jpg does not exists
+ERROR /home/coscheyc/coschey-cycles.com/deco-ray/image/old-catalog/7403.jpg does not exists
+
+ERROR /home/coscheyc/coschey-cycles.com/deco-ray/image/old-catalog/prod/80.jpg does not exists prod_id = 3407
+
+http://deco-ray.com/product_info.php?id=7423
+http://deco-ray.com/product_info.php?id=5216
+http://deco-ray.com/product_info.php?id=4745
+http://deco-ray.com/product_info.php?id=7404
+http://deco-ray.com/product_info.php?id=6738
+http://deco-ray.com/product_info.php?id=7403
+http://deco-ray.com/product_info.php?id=3407

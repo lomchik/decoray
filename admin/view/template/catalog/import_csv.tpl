@@ -32,15 +32,45 @@
                             <?php } ?>
                 </form>
 
-                <?php if (isset($cvs)): ?>
+                <?php if (isset($imported)): ?>
                 <table>
-                    <?php foreach($cvs as $row) { ?>
+                    <thead>
+                    <tr>
+                        <th>
+                            Imported <?php echo sizeof($imported); ?>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($imported as $row) { ?>
                         <tr>
                             <?php foreach($row as $v) { ?>
                             <td><?php echo $v ?></td>
                             <?php } ?>
                         </tr>
                     <?php } ?>
+                    </tbody>
+                </table>
+                <?php endif; ?>
+
+                <?php if (isset($updated)): ?>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>
+                            Updated <?php echo sizeof($updated); ?>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($updated as $row) { ?>
+                        <tr>
+                            <?php foreach($row as $v) { ?>
+                            <td><?php echo $v ?></td>
+                            <?php } ?>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
                 </table>
                 <?php endif; ?>
             </div>
