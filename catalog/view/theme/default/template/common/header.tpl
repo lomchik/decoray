@@ -38,6 +38,7 @@
 <?php } ?>
 </head>
 <body class="<?php echo $class; ?>">
+<?php if (false): ?>
 <nav id="top">
   <div class="container">
     <?php echo $currency; ?>
@@ -66,25 +67,47 @@
     </div>
   </div>
 </nav>
-<header>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4">
-        <div id="logo">
-          <?php if ($logo) { ?>
-          <a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" class="img-responsive" /></a>
-          <?php } else { ?>
-          <h1><a href="<?php echo $home; ?>"><?php echo $name; ?></a></h1>
-          <?php } ?>
-        </div>
-      </div>
-      <div class="col-sm-5"><?php echo $search; ?>
-      </div>
-      <div class="col-sm-3"><?php echo $cart; ?></div>
+<?php endif; ?>
+<header class="container">
+  <div class="header-bg row"></div>
+  <div class="header-right-panel">
+    <div class="telephone"></div>
+    <ul class="phone-number-list">
+      <li>+38 067 360 56 57</li>
+      <li>+38 099 260 56 55</li>
+    </ul>
+  </div>
+  <div class="logo-container row text-center" href="<?php echo $home; ?>">
+    <div class="logo">
+      <a href="<?php echo $home ?>">
+        <h1>
+            <?php echo $text_title ?>
+        </h1>
+        <br>
+        <small><?php echo $text_subtitle ?></small>
+      </a>
     </div>
   </div>
+  <div class="language-holder"><?php echo $language; ?></div>
 </header>
+<nav>
+  <div class="container">
+    <div class="row nav main-nav">
+      <ul class="list-inline">
+        <li><a href="<?php echo $home ?>"><?php echo $text_catalog ?></a></li>
+        <li><a href="https://my.mail.ru/bk/olgalukash/photo" target="_blank"><?php echo $text_articles ?></a></li>
+        <li><a href=""><?php echo $text_delivery ?></a></li>
+        <li><a href=""><?php echo $text_delivery ?></a></li>
+        <li class="pull-right marked"><?php echo $cart; ?></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <?php if ($categories) { ?>
+
+<div class="col-sm-5"><?php echo $search; ?>
+  <div class="col-sm-3"></div>
 <div class="container">
   <nav id="menu" class="navbar">
     <div class="navbar-header"><span id="category" class="visible-xs"><?php echo $text_category; ?></span>

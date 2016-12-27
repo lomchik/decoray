@@ -1,10 +1,5 @@
 <?php echo $header; ?>
 <div class="container">
-  <ul class="breadcrumb">
-    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
-    <?php } ?>
-  </ul>
   <div class="row"><?php echo $column_left; ?>
     <?php if ($column_left && $column_right) { ?>
     <?php $class = 'col-sm-6'; ?>
@@ -14,7 +9,12 @@
     <?php $class = 'col-sm-12'; ?>
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
-      <h2><?php echo $heading_title; ?></h2>
+      <!--h2><?php echo $heading_title; ?></h2>-->
+      <ul class="breadcrumb">
+        <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+        <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+        <?php } ?>
+      </ul>
       <?php if ($thumb || $description) { ?>
       <div class="row">
         <?php if ($thumb) { ?>
@@ -27,7 +27,7 @@
       <hr>
       <?php } ?>
       <?php if ($categories) { ?>
-      <h3><?php echo $text_refine; ?></h3>
+      <!--<h3><?php echo $text_refine; ?></h3>-->
       <?php if (count($categories) <= 5) { ?>
       <div class="row">
         <div class="col-sm-3">
