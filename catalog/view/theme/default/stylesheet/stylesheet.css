@@ -114,16 +114,19 @@ header {
 .main-nav .list-inline {
 	margin: 0;
 }
-.main-nav li {
+.main-nav > ul > li {
 	font-size: 14px;
 	padding: 20px 0 20px 60px;
 	margin: 0;
 }
-.main-nav li.marked {
+.main-nav >ul > li.marked {
 	padding: 0;
 	position: absolute;
 	height: 100%;
 	right:0;
+}
+#cart-total i {
+	display: none
 }
 .main-nav li.marked #cart {
 	height: 100%;
@@ -144,7 +147,9 @@ header {
 .main-nav li.marked #cart.open > .btn:hover, .main-nav li.marked #cart.open > .btn{
 	color: #fff;
 }
-
+#cart table tr td:nth-child(3) {
+	width:40px;
+}
 .main-nav, #column-left > *, #content, .header-right-panel{
 	box-shadow: lightgrey 2px 2px 6px 0px;
 }
@@ -879,4 +884,7 @@ h2.price {
 aside .list-group .list-group-item.active {
 	color: black;
 	list-style-type: circle;
+}
+button, button:focus, button:active, button:hover {
+	outline: none;
 }
