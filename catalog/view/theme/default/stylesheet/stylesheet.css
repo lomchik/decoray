@@ -47,7 +47,7 @@ header {
 	height: 290px;
 }
 .header-bg {
-	background: url(../image/flower-left-down.png) left 5% no-repeat, url(../image/flower-left-top.png) 25% top no-repeat, url(../image/flower-left-middle.png) 34% 105% no-repeat, url(../image/flower-right.png) right center no-repeat, url(../image/flower-right-bottom.png) 65% bottom no-repeat;
+	background: url(../image/flower-left-down.png) left 0% no-repeat, url(../image/flower-left-top.png) 25% top no-repeat, url(../image/flower-left-middle.png) 34% 105% no-repeat, url(../image/flower-right.png) right center no-repeat, url(../image/flower-right-bottom.png) 65% bottom no-repeat;
 	height: 290px;
 	opacity: 0.9;
 }
@@ -677,7 +677,7 @@ footer h5 {
 }
 .product-thumb .caption {
 	padding: 0 20px;
-	min-height: 100px;
+	min-height: 80px;
 	text-align: center;
 }
 .product-list .product-thumb .caption {
@@ -888,4 +888,15 @@ aside .list-group .list-group-item.active {
 }
 button, button:focus, button:active, button:hover {
 	outline: 0!important;
+}
+.category-item {
+
+}
+.category-item figure {
+	margin-bottom: 15px;
+}
+.category-item figcaption {
+	display: inline-block;
+	width: calc(100% - 94px);
+	vertical-align: middle;
 }

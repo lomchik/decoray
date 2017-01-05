@@ -30,8 +30,14 @@ class ModelToolImage extends Model {
 			}
 
 			if ($width_orig != $width || $height_orig != $height) {
-				$image = new Image(DIR_IMAGE . $image_old);
-				$image->resize($width, $height);
+                $image = new Image(DIR_IMAGE . $image_old);
+                /*if ($width_orig > $height_orig) {
+                    $image->resize($height*$width_orig/$height_orig, $height);
+                }
+                else {
+                    $image->resize($width, $width*$height_orig/$width_orig);
+                }*/
+                $image->resize($width, $height);
 				$image->save(DIR_IMAGE . $image_new);
 			} else {
 				copy(DIR_IMAGE . $image_old, DIR_IMAGE . $image_new);

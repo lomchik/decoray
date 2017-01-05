@@ -15,56 +15,38 @@
         <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
         <?php } ?>
       </ul>
-      <?php if ($thumb || $description) { ?>
+      <?php if ($description) { ?>
       <div class="row">
-        <?php if ($thumb) { ?>
-        <div class="col-sm-2"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" class="img-thumbnail" /></div>
-        <?php } ?>
         <?php if ($description) { ?>
         <div class="col-sm-10"><?php echo $description; ?></div>
         <?php } ?>
       </div>
       <hr>
       <?php } ?>
-      <?php if ($categories) { ?>
       <!--<h3><?php echo $text_refine; ?></h3>-->
-      <?php if (count($categories) <= 5) { ?>
       <div class="row">
-        <div class="col-sm-3">
-          <ul>
-            <?php foreach ($categories as $category) { ?>
-            <li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>
-            <?php } ?>
-          </ul>
-        </div>
-      </div>
-      <?php } else { ?>
-      <div class="row">
-        <?php foreach (array_chunk($categories, ceil(count($categories) / 4)) as $categories) { ?>
-        <div class="col-sm-3">
-          <ul>
-            <?php foreach ($categories as $category) { ?>
-            <li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>
-            <?php } ?>
-          </ul>
-        </div>
+        <?php foreach ($categories as $category) { ?>
+        <a href="<?php echo $category['href']; ?>" class="category-item">
+          <figure class="col-sm-3">
+                <img src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>" title="<?php echo $category['name']; ?>" class="img-thumbnail" />
+                <figcaption class="category-description"><?php echo $category['name']; ?></figcaption>
+          </figure>
+        </a>
         <?php } ?>
       </div>
-      <?php } ?>
-      <?php } ?>
       <?php if ($products) { ?>
-      <div class="row">
+      <div class="row"><!--
         <div class="col-md-2 col-sm-6 hidden-xs">
           <div class="btn-group btn-group-sm">
             <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $button_list; ?>"><i class="fa fa-th-list"></i></button>
             <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $button_grid; ?>"><i class="fa fa-th"></i></button>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
+        </div>-->
+        <!--<div class="col-md-3 col-sm-6">
           <div class="form-group">
             <a href="<?php echo $compare; ?>" id="compare-total" class="btn btn-link"><?php echo $text_compare; ?></a>
           </div>
-        </div>
+        </div>-->
         <div class="col-md-4 col-xs-6">
           <div class="form-group input-group input-group-sm">
             <label class="input-group-addon" for="input-sort"><?php echo $text_sort; ?></label>
