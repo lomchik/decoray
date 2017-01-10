@@ -38,6 +38,7 @@ $_['text_year']                               = 'рік';
 
 // Entry
 $_['entry_qty']                               = 'Кількість';
+$_['entry_items']                             = 'шт.';
 $_['entry_name']                              = 'Ваше Ім`я';
 $_['entry_review']                            = 'Ваш відгук';
 $_['entry_rating']                            = 'Рейтинг';
