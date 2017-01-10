@@ -837,4 +837,30 @@ JOIN oc_product ON p.art = oc_product.product_id";
 
         return $query->rows;
     }
+
+    public function setOldCategory() {
+	    $sql = "INSERT INTO ".DB_PREFIX."product_to_category (SELECT art as product_id, cat_id as category_id FROM prod)";
+
+        $this->db->query($sql);
+
+        return $this->db->countAffected();
+    }
+
+    public function getAllImages($limit = 0) {
+	    $sql = "SELECT product_id, image from ".DB_PREFIX."product";
+
+        if ($limit){
+            $sql .= " LIMIT $limit";
+        }
+
+        $product_images = $this->db->query($sql)->rows;
+        $sql = "SELECT product_id, image from ".DB_PREFIX."product_image";
+        if ($limit){
+            $sql .= " LIMIT ".($limit-sizeof($product_images));
+        }
+
+        $product_additional_images = $this->db->query($sql)->rows;
+
+        return array_merge($product_images, $product_additional_images);
+    }
 }

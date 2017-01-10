@@ -1605,6 +1605,38 @@ class ControllerCatalogProduct extends Controller {
         }*/
     }
 
+    private function migrateCategories() {
+        $this->load->model('catalog/category');
+        $this->load->model('catalog/product');
+        $this->load->model('localisation/language');
+       /* echo 'import categories from old db';
+        $this->model_catalog_product->truncate(['category', 'category_description', 'category_path', 'category_to_store']);
+
+        $categories = $this->model_catalog_category->getOldCategories();
+        $languages = $this->model_localisation_language->getLanguages();
+        foreach ($categories as $category) {
+            print_r($category);
+            echo "<br>Adding category category (id = {$category['category_id']}):<br>";
+            $category['column'] = 1;
+            $category['sort_order'] = 0;
+            $category['status'] = 1;
+            $category['category_store'] = [0];
+            $category['category_description'] = [];
+            foreach ($languages as $language) {
+                $category['category_description'][$language['language_id']] = array(
+                    'name' => $category['name'],
+                    'description' => '',
+                    'meta_title' => $category['name'],
+                    'meta_description' => '',
+                    'meta_keyword' => $category['name'],
+                );
+            }
+            $this->model_catalog_category->addCategory($category);
+        }*/
+        $this->model_catalog_product->truncate(['product_to_category']);
+        $this->model_catalog_product->setOldCategory();
+    }
+
     private function migration() {
         $this->load->model('catalog/product');
 
@@ -1661,5 +1693,22 @@ class ControllerCatalogProduct extends Controller {
         }
         echo "total ".sizeof($old_images)." additional images copied<br>";
 
+    }
+
+    public function gatherBrokenImages() {
+	    ini_set('max_execution_time', 300);
+        $this->load->model('catalog/product');
+        $images = $this->model_catalog_product->getAllImages();
+        $currentImage = null;
+        set_error_handler(function() {
+            global $currentImage;
+            echo '<a href="/image/'.$currentImage['image'].'">'.$currentImage['image'].'</a><br>';
+        });
+        foreach ($images as $image) {
+            global $currentImage;
+            $currentImage = $image;
+            $img = new Image(DIR_IMAGE.$image['image']);
+        }
+        restore_error_handler();
     }
 }
