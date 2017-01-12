@@ -1490,7 +1490,7 @@ class ControllerCatalogProduct extends Controller {
                 if ($row[0]!='') // if column 1 is not empty
                 {
                     $cvs[] = array('product_id' => (int) $row[0],
-                        'model' => $row[3],
+                        'model' => $row[0],
                         'price'=> floatval($row[4]),
                         'quantity'=> intval($row[6])
                     );
