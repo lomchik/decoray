@@ -125,9 +125,11 @@ header {
 	padding: 20px 0 20px 60px;
 	margin: 0;
 }
+.main-nav >ul > li.pull-right {
+	padding: 20px;
+}
 .main-nav >ul > li.marked {
 	padding: 0;
-	position: absolute;
 	height: 60px;
 	right:0;
 }
@@ -172,8 +174,9 @@ header {
 	color:#d55f5e;
 }
 
-a {
+a, a:focus {
 	color: #626161;
+	text-decoration: none;
 }
 a:hover {
 	text-decoration: none;
@@ -990,6 +993,12 @@ button.flat:hover {
 }
 .nav>li>a:hover {
 	background: #fdfdfe;
+}
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+	background: none;
+	border: none;
+	color:inherit;
+	text-decoration: none;
 }
 /* navigation list */
 .categories-menu {
