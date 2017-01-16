@@ -61,6 +61,8 @@ class ControllerExtensionModuleCategory extends Controller {
 			);
 		}
 
+        $data['search'] = $this->load->controller('common/search');
+
 		return $this->load->view('extension/module/category', $data);
 	}
 }

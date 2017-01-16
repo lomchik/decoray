@@ -1,4 +1,5 @@
 <div class="list-group">
+  <?php echo $search; ?>
   <?php foreach ($categories as $category) { ?>
   <?php if ($category['category_id'] == $category_id) { ?>
   <a href="<?php echo $category['href']; ?>" class="list-group-item active">&bull; <?php echo $category['name']; ?> &bull;</a>

@@ -106,7 +106,7 @@
 
 <?php if ($categories) { ?>
 
-<div class="col-sm-5"><?php echo $search; ?>
+<div class="col-sm-5">
   <div class="col-sm-3"></div>
 <div class="container">
   <nav id="menu" class="navbar">

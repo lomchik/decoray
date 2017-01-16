@@ -932,12 +932,16 @@ button, button:focus, button:active, button:hover {
 }
 
 /*bootstrap override*/
+.btn {
+	border-radius: 2px;
+}
 .input-group-addon {
 	background-color: #fdfdfe;
 	border: 1px solid #eee;
+	border-radius: 2px;
 }
-.form-control {
-	border: 1px solid #eee;
+.input-group-addon.white {
+	background: white;
 }
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
 	background-color: #FF987F;
@@ -947,7 +951,9 @@ button, button:focus, button:active, button:hover {
 	color:inherit;
 }
 .form-control {
+	border: 1px solid #eee;
 	box-shadow: none;
+	border-radius: 2px;
 }
 .form-control:focus {
 	border-color: #eee;
@@ -990,4 +996,10 @@ button.flat {
 }
 button.flat:hover {
 	background: none;
+}
+#search button {
+	background: white;
+	border:1px solid #eee;
+	border-left:none;
+	box-shadow: none;
 }
