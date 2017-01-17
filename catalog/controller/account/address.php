@@ -503,7 +503,7 @@ class ControllerAccountAddress extends Controller {
 
 		$this->load->model('localisation/country');
 
-		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
+		/*$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 
 		if ($country_info && $country_info['postcode_required'] && (utf8_strlen(trim($this->request->post['postcode'])) < 2 || utf8_strlen(trim($this->request->post['postcode'])) > 10)) {
 			$this->error['postcode'] = $this->language->get('error_postcode');
@@ -515,7 +515,7 @@ class ControllerAccountAddress extends Controller {
 
 		if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '' || !is_numeric($this->request->post['zone_id'])) {
 			$this->error['zone'] = $this->language->get('error_zone');
-		}
+		}*/
 
 		// Custom field validation
 		$this->load->model('account/custom_field');

@@ -29,9 +29,6 @@ h1 {
 h2 {
 	font-size: 27px;
 }
-#content > h2 {
-	margin-bottom: 0;
-}
 h3 {
 	font-size: 21px;
 }
@@ -219,6 +216,9 @@ div.required .control-label:before {
 	background-color: #229ac8;
 	background-image: linear-gradient(to bottom, #23a1d1, #1f90bb);
 	background-repeat: repeat-x;
+}
+.container > .breadcrumb {
+	display: none;
 }
 /* top */
 #top {
@@ -660,10 +660,9 @@ footer h5 {
 .product-thumb:hover {
 	position: absolute;
 	z-index: 5;
-	border: 1px solid #eee;
+	outline: 1px solid #eee;
 	width: calc(100% - 30px);
-	box-sizing: border-box;
-	top: -1px;
+	box-sizing: content-box;
 }
 .product-thumb:hover .button-group {
 	display: block;

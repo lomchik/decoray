@@ -289,7 +289,7 @@ var wishlist = {
 					$('#content').parent().before('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 				}
 
-				$('#wishlist-total span').html(json['total']);
+				$('#wishlist-total span').html(json['total_count']);
 				$('#wishlist-total').attr('title', json['total']);
 
 				$('html, body').animate({ scrollTop: 0 }, 'slow');

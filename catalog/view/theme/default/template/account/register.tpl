@@ -1,5 +1,10 @@
 <?php echo $header; ?>
 <div class="container">
+  <ul class="breadcrumb">
+    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+    <?php } ?>
+  </ul>
   <?php if ($error_warning) { ?>
   <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?></div>
   <?php } ?>
@@ -12,11 +17,6 @@
     <?php $class = 'col-sm-12'; ?>
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>">
-      <ul class="breadcrumb">
-        <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-        <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
-        <?php } ?>
-      </ul>
       <?php echo $content_top; ?>
       <h1><?php echo $heading_title; ?></h1>
       <p><?php echo $text_account_already; ?></p>
@@ -79,12 +79,14 @@
               <?php } ?>
             </div>
           </div>
+          <?php if (false): ?>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
             <div class="col-sm-10">
               <input type="text" name="fax" value="<?php echo $fax; ?>" placeholder="<?php echo $entry_fax; ?>" id="input-fax" class="form-control" />
             </div>
           </div>
+          <?php endif; ?>
           <?php foreach ($custom_fields as $custom_field) { ?>
           <?php if ($custom_field['location'] == 'account') { ?>
           <?php if ($custom_field['type'] == 'select') { ?>
@@ -241,34 +243,17 @@
         </fieldset>
         <fieldset id="address">
           <legend><?php echo $text_your_address; ?></legend>
+          <?php if (false): ?>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-company"><?php echo $entry_company; ?></label>
             <div class="col-sm-10">
               <input type="text" name="company" value="<?php echo $company; ?>" placeholder="<?php echo $entry_company; ?>" id="input-company" class="form-control" />
             </div>
           </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-address-1"><?php echo $entry_address_1; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="address_1" value="<?php echo $address_1; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-address-1" class="form-control" />
-              <?php if ($error_address_1) { ?>
-              <div class="text-danger"><?php echo $error_address_1; ?></div>
-              <?php } ?>
-            </div>
-          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-address-2"><?php echo $entry_address_2; ?></label>
             <div class="col-sm-10">
               <input type="text" name="address_2" value="<?php echo $address_2; ?>" placeholder="<?php echo $entry_address_2; ?>" id="input-address-2" class="form-control" />
-            </div>
-          </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city" class="form-control" />
-              <?php if ($error_city) { ?>
-              <div class="text-danger"><?php echo $error_city; ?></div>
-              <?php } ?>
             </div>
           </div>
           <div class="form-group required">
@@ -305,6 +290,35 @@
               </select>
               <?php if ($error_zone) { ?>
               <div class="text-danger"><?php echo $error_zone; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-zone"><?php echo $entry_zone; ?></label>
+            <div class="col-sm-10">
+              <select name="zone_id" id="input-zone" class="form-control">
+              </select>
+              <?php if ($error_zone) { ?>
+              <div class="text-danger"><?php echo $error_zone; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          <?php endif; ?>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-address-1"><?php echo $entry_address_1; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="address_1" value="<?php echo $address_1; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-address-1" class="form-control" />
+              <?php if ($error_address_1) { ?>
+              <div class="text-danger"><?php echo $error_address_1; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city" class="form-control" />
+              <?php if ($error_city) { ?>
+              <div class="text-danger"><?php echo $error_city; ?></div>
               <?php } ?>
             </div>
           </div>
@@ -508,7 +522,7 @@
         </fieldset>
         <?php echo $captcha; ?>
         <?php if ($text_agree) { ?>
-        <div class="buttons">
+        <div class="buttons clearfix">
           <div class="pull-right"><?php echo $text_agree; ?>
             <?php if ($agree) { ?>
             <input type="checkbox" name="agree" value="1" checked="checked" />
@@ -520,7 +534,7 @@
           </div>
         </div>
         <?php } else { ?>
-        <div class="buttons">
+        <div class="buttons clearfix">
           <div class="pull-right">
             <input type="submit" value="<?php echo $button_continue; ?>" class="btn btn-primary" />
           </div>
