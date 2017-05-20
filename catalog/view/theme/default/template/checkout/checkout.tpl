@@ -1,5 +1,5 @@
 <?php echo $header; ?>
-<div class="container">
+<div class="container" id="checkout-container">
   <ul class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
     <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
@@ -18,8 +18,194 @@
     <?php } else { ?>
     <?php $class = 'col-sm-12'; ?>
     <?php } ?>
-    <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
+    <div id="content" class="<?php echo $class; ?>">
+      <?php echo $content_top; ?>
       <h1><?php echo $heading_title; ?></h1>
+      <!-- new design-->
+      <div id="checkout" class="">
+        <div class="row">
+          <div class="col-sm-6">
+            <fieldset id="account">
+              <h2><?php echo !$logged ? $text_new_customer : $text_returning_customer; ?>
+              <div class="form-group required">
+                <label class="control-label" for="input-payment-firstname"><?php echo $entry_firstname; ?></label>
+                <input type="text" name="firstname" value="<?php echo isset($shipping_address['firstname']) ? $shipping_address['firstname'] : ''; ?>" placeholder="<?php echo $entry_firstname; ?>" id="input-payment-firstname" class="form-control" />
+              </div>
+              <div class="form-group required">
+                <label class="control-label" for="input-payment-email"><?php echo $entry_email; ?></label>
+                <input type="text" name="email" value="<?php echo isset($customer['email']) ? $customer['email'] : ''; ?>" <?php if ($logged): ?> readonly <?php endif; ?> placeholder="<?php echo $entry_email; ?>" id="input-payment-email" class="form-control" />
+              </div>
+              <div class="form-group required">
+                <label class="control-label" for="input-payment-telephone"><?php echo $entry_telephone; ?></label>
+                <input type="text" name="telephone" value="<?php echo isset($customer['telephone']) ? $customer['telephone'] : ''; ?>" placeholder="<?php echo $entry_telephone; ?>" id="input-payment-telephone" class="form-control" />
+              </div>
+              <div class="form-group required">
+                <label class="control-label" for="input-payment-address-1"><?php echo $entry_address_1; ?></label>
+                <input type="text" name="address_1" value="<?php echo isset($shipping_address['address_1']) ? $shipping_address['address_1'] : ''; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-payment-address-1" class="form-control" />
+              </div>
+              <?php if (!$logged): ?>
+              <div>
+                <label>
+                  <input type="checkbox"  id="account-register" onchange="this.checked ? $('#register').show() : $('#register').hide()" />
+                  <?php echo $text_register; ?>
+                </label>
+              </div>
+              <p><?php echo $text_register_account; ?></p>
+              <fieldset id="register" style="display: none">
+                <div class="form-group required">
+                  <label class="control-label" for="input-payment-password"><?php echo $entry_password; ?></label>
+                  <input type="password" name="password" value="" placeholder="<?php echo $entry_password; ?>" id="input-payment-password" class="form-control" />
+                </div>
+                <div class="form-group required">
+                  <label class="control-label" for="input-payment-confirm"><?php echo $entry_confirm; ?></label>
+                  <input type="password" name="confirm" value="" placeholder="<?php echo $entry_confirm; ?>" id="input-payment-confirm" class="form-control" />
+                </div>
+              </fieldset>
+              <?php endif; ?>
+              <input type="button" value="<?php echo $button_continue; ?>" id="button-register1" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary" />
+            </fieldset>
+          </div>
+          <?php if (!$logged): ?>
+          <div class="col-sm-6" id="checkout-option">
+              <h2><?php echo $text_returning_customer; ?></h2>
+              <div class="form-group">
+                <label class="control-label" for="input-email"><?php echo $entry_email; ?></label>
+                <input type="text" name="email" value="" placeholder="<?php echo $entry_email; ?>" id="input-email" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-password"><?php echo $entry_password; ?></label>
+                <input type="password" name="password" value="" placeholder="<?php echo $entry_password; ?>" id="input-password" class="form-control" />
+                <a href="<?php echo $forgotten; ?>"><?php echo $text_forgotten; ?></a></div>
+              <div class="buttons">
+                <input type="button" value="<?php echo $button_login; ?>" id="button-login1" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary" />
+              </div>
+          </div>
+          <?php endif; ?>
+        </div>
+      </div>
+      <div id="checkout-confirm">
+      </div>
+      <script>
+          function showError(error) {
+              $('#checkout-container').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + error + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+          }
+
+          function checkoutConfirm() {
+              $.ajax({
+                  url: 'index.php?route=checkout/confirm',
+                  type: 'post',
+                  dataType: 'html',
+                  data: $('#account input[type=\'text\']'),
+                  complete: function() {
+                      $('#button-register1').button('reset');
+                  },
+                  success: function(html) {
+                      $('#checkout').hide();
+                      $('#checkout-confirm').html(html).show();
+                  },
+                  error: function(xhr, ajaxOptions, thrownError) {
+                      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                  }
+              });
+          }
+
+          function login(callback) {
+              $.ajax({
+                  url: 'index.php?route=checkout/login/save',
+                  type: 'post',
+                  data: $('#checkout-option :input'),
+                  dataType: 'json',
+                  beforeSend: function() {
+                      $('#button-login1').button('loading');
+                  },
+                  complete: function() {
+                      $('#button-login1').button('reset');
+                  },
+                  success: function(json) {
+                      $('.alert, .text-danger').remove();
+                      $('.form-group').removeClass('has-error');
+
+                      if (json['redirect']) {
+                          location = json['redirect'];
+                      } else if (json['error']) {
+                          showError(json['error']['warning']);
+                          // Highlight any found errors
+                          $('#checkout-option input[name=\'email\']').parent().addClass('has-error');
+                          $('#checkout-option input[name=\'password\']').parent().addClass('has-error');
+                      }
+                  },
+                  error: function(xhr, ajaxOptions, thrownError) {
+                      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                  }
+              });
+          }
+
+          function register(callback) {
+              $.ajax({
+                  url: 'index.php?route=checkout/register/save',
+                  type: 'post',
+                  data: $('#account input[type=\'text\'], #account input[type=\'password\'], #account input[type=\'hidden\'], #account input[type=\'checkbox\']:checked, #account input[type=\'radio\']:checked, #account textarea, #account select'),
+                  dataType: 'json',
+                  beforeSend: function() {
+                      $('#button-register1').button('loading');
+                  },
+                  success: function(json) {
+                      $('.alert, .text-danger').remove();
+                      $('.form-group').removeClass('has-error');
+
+                      if (json['redirect']) {
+                          callback && callback()
+                          location = json['redirect'];
+                      } else if (json['error']) {
+                          $('#button-register1').button('reset');
+
+                          if (json['error']['warning']) {
+                              showError(json['error']['warning'])
+                          }
+
+                          for (i in json['error']) {
+                              var element = $('#input-payment-' + i.replace('_', '-'));
+
+                              if ($(element).parent().hasClass('input-group')) {
+                                  $(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+                              } else {
+                                  $(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+                              }
+                          }
+
+                          // Highlight any found errors
+                          $('.text-danger').parent().addClass('has-error');
+                      } else {
+                          callback && callback()
+                      }
+                  },
+                  error: function(xhr, ajaxOptions, thrownError) {
+                      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                  }
+              });
+          }
+
+          $(document).delegate('#button-login1', 'click', function() {
+              login()
+          });
+
+          // Register
+          $(document).delegate('#button-register1', 'click', function() {
+              if ($('#account-register:checked').length) {
+                register(function() {
+                    checkoutConfirm();
+                })
+              }
+              else {
+                  checkoutConfirm();
+              }
+          });
+      </script>
+
+    <!-- end of new design -->
+
+
+    <?php if (false): ?>
       <div class="panel-group" id="accordion">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -83,9 +269,11 @@
           </div>
         </div>
       </div>
+    <?php endif; ?>
       <?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
 </div>
+<?php if (false): ?>
 <script type="text/javascript"><!--
 $(document).on('change', 'input[name=\'account\']', function() {
 	if ($('#collapse-payment-address').parent().find('.panel-heading .panel-title > *').is('a')) {
@@ -795,4 +983,5 @@ $(document).delegate('#button-payment-method', 'click', function() {
     });
 });
 //--></script>
+<?php endif; ?>
 <?php echo $footer; ?>

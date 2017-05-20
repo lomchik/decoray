@@ -1,7 +1,65 @@
 <?php
 class ControllerCheckoutConfirm extends Controller {
-	public function index() {
+	private function setSessionDataFromPost() {
+        if (!$this->customer->isLogged()) {
+            $this->session->data['guest'] = array(
+                'customer_group_id' => 0,
+                'firstname' => $this->request->post['firstname'],
+                'lastname' => isset($this->request->post['lastname']) ? $this->request->post['lastname'] : '',
+                'email' => $this->request->post['email'],
+                'telephone' => $this->request->post['telephone'],
+                'fax' => '',
+                'custom_field' => array()
+            );
+        }
+        $this->session->data['payment_address'] = array(
+            'firstname' => '',
+            'lastname' => '',
+            'company' => '',
+            'address_1' => '',
+            'address_2' => '',
+            'city' => '',
+            'postcode' => '',
+            'zone' => '',
+            'zone_id' => '',
+            'country' => '',
+            'country_id' => '',
+            'address_format' => '',
+            'custom_field' => array()
+        );
+        $this->session->data['payment_method'] = array(
+            'title' => '',
+            'code' => 'free_checkout'
+        );
+        $this->session->data['shipping_address'] = array(
+            'firstname' => $this->request->post['firstname'],
+            'lastname' => '',
+            'company' => '',
+            'address_1' => $this->request->post['address_1'],
+            'address_2' => '',
+            'city' => '',
+            'postcode' => '',
+            'zone' => '',
+            'zone_id' => '',
+            'country_id' => '',
+            'country' => '',
+            'address_format' => '',
+            'custom_field' => array()
+        );
+        $this->session->data['shipping_method'] = array(
+            'title' => '',
+            'code' => ''
+        );
+        $this->session->data['comment'] = '';
+
+    }
+
+    public function index() {
 		$redirect = '';
+        /*remove steps, only one post*/
+        if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+            $this->setSessionDataFromPost();
+        }
 
 		if ($this->cart->hasShipping()) {
 			// Validate if shipping address has been set.

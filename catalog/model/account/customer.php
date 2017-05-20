@@ -1,6 +1,14 @@
 <?php
 class ModelAccountCustomer extends Model {
 	public function addCustomer($data) {
+
+        $notRequiredFields = ['customer_group_id', 'lastname', 'fax','company','address_2','city','postcode','country_id','zone_id'];
+        foreach($notRequiredFields as $field) {
+            if (!isset($data[$field])) {
+                $data[$field] = '';
+            }
+        }
+
 		if (isset($data['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($data['customer_group_id'], $this->config->get('config_customer_group_display'))) {
 			$customer_group_id = $data['customer_group_id'];
 		} else {

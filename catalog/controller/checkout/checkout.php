@@ -60,7 +60,7 @@ class ControllerCheckoutCheckout extends Controller {
 		$data['text_checkout_payment_address'] = sprintf($this->language->get('text_checkout_payment_address'), 2);
 		$data['text_checkout_shipping_address'] = sprintf($this->language->get('text_checkout_shipping_address'), 3);
 		$data['text_checkout_shipping_method'] = sprintf($this->language->get('text_checkout_shipping_method'), 4);
-		
+
 		if ($this->cart->hasShipping()) {
 			$data['text_checkout_payment_method'] = sprintf($this->language->get('text_checkout_payment_method'), 5);
 			$data['text_checkout_confirm'] = sprintf($this->language->get('text_checkout_confirm'), 6);
@@ -78,6 +78,25 @@ class ControllerCheckoutCheckout extends Controller {
 
 		$data['logged'] = $this->customer->isLogged();
 
+		if ($data['logged']) {
+		    $this->load->model('account/customer');
+		    $this->load->model('account/address');
+            $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
+            $data['shipping_address'] = $this->model_account_address->getAddress($customer_info['address_id']);
+            $data['customer'] = array(
+                'firstname' => $customer_info['firstname'],
+                'telephone' => $customer_info['telephone'],
+                'email' => $customer_info['email']
+            );
+        }
+        else if (isset($this->session->data['guest'])) {
+            $data['customer'] = array(
+                'telephone' => isset($this->session->data['guest']['telephone']) ? $this->session->data['guest']['telephone'] : '',
+                'email' => isset($this->session->data['guest']['email']) ? $this->session->data['guest']['email'] : ''
+            );
+        }
+
+
 		if (isset($this->session->data['account'])) {
 			$data['account'] = $this->session->data['account'];
 		} else {
@@ -92,6 +111,64 @@ class ControllerCheckoutCheckout extends Controller {
 		$data['content_bottom'] = $this->load->controller('common/content_bottom');
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
+
+        $this->load->language('checkout/checkout');
+
+        $data['text_checkout_account'] = $this->language->get('text_checkout_account');
+        $data['text_checkout_payment_address'] = $this->language->get('text_checkout_payment_address');
+        $data['text_new_customer'] = $this->language->get('text_new_customer');
+        $data['text_returning_customer'] = $this->language->get('text_returning_customer');
+        $data['text_checkout'] = $this->language->get('text_checkout');
+        $data['text_register'] = $this->language->get('text_register');
+        $data['text_guest'] = $this->language->get('text_guest');
+        $data['text_i_am_returning_customer'] = $this->language->get('text_i_am_returning_customer');
+        $data['text_register_account'] = $this->language->get('text_register_account');
+        $data['text_forgotten'] = $this->language->get('text_forgotten');
+        $data['text_loading'] = $this->language->get('text_loading');
+
+        $data['entry_email'] = $this->language->get('entry_email');
+        $data['entry_password'] = $this->language->get('entry_password');
+
+        $data['button_continue'] = $this->language->get('button_continue');
+        $data['button_login'] = $this->language->get('button_login');
+
+        $data['checkout_guest'] = ($this->config->get('config_checkout_guest') && !$this->config->get('config_customer_price') && !$this->cart->hasDownload());
+
+        if (isset($this->session->data['account'])) {
+            $data['account'] = $this->session->data['account'];
+        } else {
+            $data['account'] = 'register';
+        }
+
+        $data['forgotten'] = $this->url->link('account/forgotten', '', true);
+
+        $this->load->language('checkout/checkout');
+
+        $data['text_checkout_payment_address'] = $this->language->get('text_checkout_payment_address');
+        $data['text_your_details'] = $this->language->get('text_your_details');
+        $data['text_your_address'] = $this->language->get('text_your_address');
+        $data['text_your_password'] = $this->language->get('text_your_password');
+        $data['text_select'] = $this->language->get('text_select');
+        $data['text_none'] = $this->language->get('text_none');
+        $data['text_loading'] = $this->language->get('text_loading');
+
+        $data['entry_customer_group'] = $this->language->get('entry_customer_group');
+        $data['entry_firstname'] = $this->language->get('entry_firstname');
+        $data['entry_lastname'] = $this->language->get('entry_lastname');
+        $data['entry_email'] = $this->language->get('entry_email');
+        $data['entry_telephone'] = $this->language->get('entry_telephone');
+        $data['entry_fax'] = $this->language->get('entry_fax');
+        $data['entry_company'] = $this->language->get('entry_company');
+        $data['entry_address_1'] = $this->language->get('entry_address_1');
+        $data['entry_address_2'] = $this->language->get('entry_address_2');
+        $data['entry_postcode'] = $this->language->get('entry_postcode');
+        $data['entry_city'] = $this->language->get('entry_city');
+        $data['entry_country'] = $this->language->get('entry_country');
+        $data['entry_zone'] = $this->language->get('entry_zone');
+        $data['entry_newsletter'] = sprintf($this->language->get('entry_newsletter'), $this->config->get('config_name'));
+        $data['entry_password'] = $this->language->get('entry_password');
+        $data['entry_confirm'] = $this->language->get('entry_confirm');
+        $data['entry_shipping'] = $this->language->get('entry_shipping');
 
 		$this->response->setOutput($this->load->view('checkout/checkout', $data));
 	}

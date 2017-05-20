@@ -171,10 +171,32 @@ header {
 	color:#d55f5e;
 }
 
-a, a:focus {
+a {
+	color: #3f9ebd;
+}
+a:focus, a:hover {
+	color: #048bbd;
+}
+nav a,
+.nav a,
+header a,
+aside a,
+h4 a,
+.btn-link {
 	color: #626161;
 	text-decoration: none;
 }
+
+.btn-link:focus, .btn-link:hover,
+nav a:hover, nav a.active, nav a.active:hover,
+.nav a:hover, .nav a.active, .nav a.active:hover,
+header a:hover, header a.active, header a.active:hover,
+aside a, aside a:hover, aside a.active, aside a.active:hover,
+h4 a, h4 a:hover, h4 a.active, h4 a.active:hover {
+	color: #656060;
+	text-decoration: none;
+}
+
 a:hover {
 	text-decoration: none;
 }
@@ -501,6 +523,7 @@ footer h5 {
 /* buttons */
 .buttons {
 	margin: 1em 0;
+	overflow: hidden;
 }
 .btn {
 	padding: 7.5px 12px;
@@ -669,6 +692,11 @@ footer h5 {
 }
 .product-grid .product-thumb .image {
 	float: none;
+}
+.category-results {
+	position: absolute;
+	right: 0;
+	bottom: 9px;
 }
 @media (min-width: 767px) {
 .product-list .product-thumb .image {
@@ -885,10 +913,7 @@ h2.price {
     background-image: none;
     background-color: #df5c39;
 }
-.btn-link:focus, .btn-link:hover, a:hover,.list-group a.active, .list-group a.active:hover, .list-group a:hover {
-	color: #656060;
-	text-decoration: none;
-}
+
 .list-group-item:first-child, .list-group-item:last-child {
 	border-radius: 0;
 }
